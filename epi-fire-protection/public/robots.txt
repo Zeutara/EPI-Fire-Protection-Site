@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://epi-fire-protection.up.railway.app/sitemap.xml
