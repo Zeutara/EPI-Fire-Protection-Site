@@ -1,9 +1,62 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Phone, Shield, CheckCircle } from "lucide-react";
 
+function useCountUp(end: number, duration: number = 2000, startOnView: boolean = true) {
+  const [count, setCount] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!startOnView) {
+      setHasStarted(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasStarted) {
+          setHasStarted(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [hasStarted, startOnView]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
+    let startTime: number;
+    let animationFrame: number;
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * end));
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [hasStarted, end, duration]);
+
+  return { count, ref };
+}
+
 export default function Hero() {
+  const counter33 = useCountUp(33, 2000);
+  const counter1000 = useCountUp(1000, 2200);
+  const counter88 = useCountUp(88, 1800);
+
   return (
     <section className="relative bg-epi-black overflow-hidden min-h-[90vh] flex items-center">
       {/* Background layers */}
@@ -34,7 +87,7 @@ export default function Hero() {
             >
               <Shield className="w-4 h-4 text-epi-red" />
               <span className="text-sm text-white/60 font-medium">
-                GTA&apos;s Most Trusted Fire Protection Company
+                Trusted by 1,000+ property managers across the GTA
               </span>
             </motion.div>
 
@@ -45,11 +98,11 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-extrabold text-white leading-[1.08] tracking-tight"
             >
-              Fire compliance
+              Your building failed
               <br />
-              failures cost millions.
+              its fire inspection.
               <br />
-              <span className="text-epi-red">We prevent them.</span>
+              <span className="text-epi-red">Now what?</span>
             </motion.h1>
 
             {/* Subheadline */}
@@ -60,8 +113,8 @@ export default function Hero() {
               className="mt-6 text-lg md:text-xl text-white/50 leading-relaxed max-w-xl"
             >
               88 certified technicians. 33 years of zero-compromise protection.
-              From inspections to full system installations — EPI keeps your
-              buildings compliant, your tenants safe, and your liability at zero.
+              EPI gets your building compliant, keeps your tenants safe, and
+              eliminates your liability — guaranteed.
             </motion.p>
 
             {/* Proof points */}
@@ -110,32 +163,36 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right — Stats grid */}
+          {/* Right — Animated Stats grid */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="hidden lg:block"
           >
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4" ref={counter33.ref}>
               {[
                 {
-                  value: "33+",
+                  value: counter33.count,
+                  suffix: "+",
                   label: "Years Protecting the GTA",
                   detail: "Since 1991",
                 },
                 {
-                  value: "1,000+",
+                  value: counter1000.count,
+                  suffix: "+",
                   label: "Properties Protected",
                   detail: "Commercial & Industrial",
                 },
                 {
-                  value: "88",
+                  value: counter88.count,
+                  suffix: "",
                   label: "Certified Technicians",
                   detail: "Licensed & Insured",
                 },
                 {
-                  value: "24/7",
+                  value: null,
+                  display: "24/7",
                   label: "Emergency Response",
                   detail: "365 Days a Year",
                 },
@@ -147,8 +204,15 @@ export default function Hero() {
                   transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
                   className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6 hover:bg-white/[0.05] transition-colors group"
                 >
-                  <div className="text-3xl md:text-4xl font-extrabold text-white group-hover:text-epi-red transition-colors">
-                    {stat.value}
+                  <div className="text-3xl md:text-4xl font-extrabold text-white group-hover:text-epi-red transition-colors tabular-nums">
+                    {stat.value !== null ? (
+                      <>
+                        {stat.value.toLocaleString()}
+                        <span className="text-epi-red">{stat.suffix}</span>
+                      </>
+                    ) : (
+                      stat.display
+                    )}
                   </div>
                   <div className="text-sm font-semibold text-white/60 mt-1">
                     {stat.label}

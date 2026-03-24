@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, Clock, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, Clock } from "lucide-react";
+import Image from "next/image";
 
 const navLinks = [
   { label: "Services", href: "#services" },
@@ -65,20 +66,15 @@ export default function Navigation() {
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-[72px]">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group shrink-0">
-            <div className="w-11 h-11 bg-epi-red rounded-xl flex items-center justify-center shadow-lg shadow-epi-red/20 group-hover:shadow-epi-red/30 transition-shadow">
-              <span className="text-white font-black text-xl leading-none">
-                E
-              </span>
-            </div>
-            <div className="leading-tight">
-              <span className="text-[22px] font-extrabold tracking-tight text-epi-black">
-                EPI
-              </span>
-              <span className="block text-[9px] uppercase tracking-[0.25em] text-epi-gray font-semibold">
-                Fire Protection
-              </span>
-            </div>
+          <a href="#" className="flex items-center shrink-0">
+            <Image
+              src="/logo.png"
+              alt="EPI Fire Protection Inc."
+              width={150}
+              height={51}
+              className="h-10 w-auto"
+              priority
+            />
           </a>
 
           {/* Desktop links */}

@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 const footerLinks = {
   Services: [
@@ -55,20 +56,14 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-12 gap-12">
           {/* Brand */}
           <div className="lg:col-span-4">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-11 h-11 bg-epi-red rounded-xl flex items-center justify-center shadow-lg shadow-epi-red/20">
-                <span className="text-white font-black text-xl leading-none">
-                  E
-                </span>
-              </div>
-              <div className="leading-tight">
-                <span className="text-[22px] font-extrabold tracking-tight text-white">
-                  EPI
-                </span>
-                <span className="block text-[9px] uppercase tracking-[0.25em] text-white/30 font-semibold">
-                  Fire Protection
-                </span>
-              </div>
+            <div className="mb-5">
+              <Image
+                src="/logo.png"
+                alt="EPI Fire Protection Inc."
+                width={150}
+                height={51}
+                className="h-10 w-auto brightness-0 invert"
+              />
             </div>
             <p className="text-sm text-white/35 leading-relaxed max-w-xs mb-6">
               The GTA&apos;s most trusted fire protection partner since 1991.

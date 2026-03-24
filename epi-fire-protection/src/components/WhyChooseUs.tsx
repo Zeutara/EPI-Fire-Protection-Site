@@ -14,9 +14,9 @@ import {
 const differentiators = [
   {
     icon: Clock,
-    title: "33 Years. Zero Shortcuts.",
+    title: "33 Years. Still Here. Still Accountable.",
     description:
-      "Since 1991, we've protected thousands of properties across the GTA. Our experience means we've seen every system, every code change, and every edge case. You get solutions that work — the first time.",
+      "Most fire protection contractors come and go. We've been here since 1991 — through every code revision, every building trend, every system generation. When something goes wrong in year five, we're still the ones who pick up the phone.",
   },
   {
     icon: Award,
@@ -26,9 +26,9 @@ const differentiators = [
   },
   {
     icon: Users,
-    title: "Your Dedicated Account Team",
+    title: "One Call. One Person. Every Time.",
     description:
-      "No call centres. No ticket queues. You get a dedicated account manager who knows your buildings, your systems, and your compliance history. One call, one person, every time.",
+      "You'll never explain your building's history twice. Your dedicated account manager knows every system, every deficiency, and every deadline across your portfolio. They answer when you call — not a dispatcher.",
   },
   {
     icon: Zap,
@@ -44,9 +44,9 @@ const differentiators = [
   },
   {
     icon: FileCheck,
-    title: "Transparent. No Surprises.",
+    title: "You See Everything We See.",
     description:
-      "Detailed inspection reports with photos. Clear deficiency tracking. Upfront pricing with no hidden fees. Proactive recommendations before issues become emergencies. You see everything we see.",
+      "Every inspection comes with photo documentation, deficiency classification by code reference, and a clear scope of work. No vague line items. No mystery invoices. If we recommend it, we show you exactly why.",
   },
 ];
 

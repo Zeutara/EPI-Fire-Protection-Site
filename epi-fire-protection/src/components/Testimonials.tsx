@@ -70,8 +70,8 @@ export default function Testimonials() {
             transition={{ delay: 0.2 }}
             className="mt-5 text-lg text-epi-gray"
           >
-            Property managers and building owners across the GTA trust EPI to
-            protect their buildings — and their reputations.
+            90% of our clients recommend EPI to their peers. Here&apos;s why
+            property managers across the GTA refuse to use anyone else.
           </motion.p>
         </div>
 

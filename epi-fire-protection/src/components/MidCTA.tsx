@@ -26,11 +26,10 @@ export default function MidCTA() {
             className="text-center lg:text-left"
           >
             <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-              Stop gambling with your building&apos;s compliance.
+              Every week you wait is another week your building is at risk.
             </h2>
             <p className="mt-2 text-white/70 text-lg">
-              Get a free assessment from a certified fire protection specialist.
-              No obligation. No pressure.
+              One failed inspection can void your insurance, expose your board to liability, and put lives at risk. Get a free assessment today.
             </p>
           </motion.div>
 
