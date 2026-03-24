@@ -1,17 +1,28 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Colors ── */
+  /* ── Brand Colors ── */
   --color-epi-red: #C41E24;
   --color-epi-red-dark: #9B1419;
   --color-epi-red-light: #E8353B;
+  --color-epi-red-glow: rgba(196, 30, 36, 0.15);
+
+  /* ── Neutrals ── */
   --color-epi-black: #0A0A0A;
-  --color-epi-charcoal: #1A1A1A;
-  --color-epi-slate: #2D2D2D;
+  --color-epi-charcoal: #141414;
+  --color-epi-slate: #1E1E1E;
+  --color-epi-dark: #2A2A2A;
+  --color-epi-gray-700: #404040;
   --color-epi-gray: #6B7280;
+  --color-epi-gray-400: #9CA3AF;
   --color-epi-gray-light: #F5F5F7;
   --color-epi-white: #FFFFFF;
   --color-epi-warm: #FAFAF8;
+  --color-epi-cream: #F8F6F3;
+
+  /* ── Accent ── */
+  --color-epi-gold: #D4A853;
+  --color-epi-navy: #0F1729;
 
   /* ── Fonts ── */
   --font-heading: "Inter", system-ui, sans-serif;
@@ -34,5 +45,30 @@
   ::selection {
     background-color: var(--color-epi-red);
     color: white;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-dark {
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
   }
 }
