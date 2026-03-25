@@ -4,32 +4,30 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Phone, Shield, CheckCircle } from "lucide-react";
 
-function useCountUp(end: number, duration: number = 2000, startOnView: boolean = true) {
-  const [count, setCount] = useState(0);
-  const [hasStarted, setHasStarted] = useState(false);
+function useInView(threshold: number = 0.3) {
+  const [inView, setInView] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!startOnView) {
-      setHasStarted(true);
-      return;
-    }
-
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasStarted) {
-          setHasStarted(true);
-        }
+        if (entry.isIntersecting) setInView(true);
       },
-      { threshold: 0.3 }
+      { threshold }
     );
 
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [hasStarted, startOnView]);
+  }, [threshold]);
+
+  return { inView, ref };
+}
+
+function useCountUp(end: number, started: boolean, duration: number = 2000) {
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!hasStarted) return;
+    if (!started) return;
 
     let startTime: number;
     let animationFrame: number;
@@ -47,15 +45,16 @@ function useCountUp(end: number, duration: number = 2000, startOnView: boolean =
 
     animationFrame = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrame);
-  }, [hasStarted, end, duration]);
+  }, [started, end, duration]);
 
-  return { count, ref };
+  return count;
 }
 
 export default function Hero() {
-  const counter33 = useCountUp(33, 2000);
-  const counter1000 = useCountUp(1000, 2200);
-  const counter88 = useCountUp(88, 1800);
+  const { inView, ref: statsRef } = useInView();
+  const count33 = useCountUp(33, inView, 2000);
+  const count1000 = useCountUp(1000, inView, 2200);
+  const count88 = useCountUp(88, inView, 1800);
 
   return (
     <section className="relative bg-epi-black overflow-hidden min-h-[90vh] flex items-center">
@@ -170,22 +169,22 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="hidden lg:block"
           >
-            <div className="grid grid-cols-2 gap-4" ref={counter33.ref}>
+            <div className="grid grid-cols-2 gap-4" ref={statsRef}>
               {[
                 {
-                  value: counter33.count,
+                  value: count33,
                   suffix: "+",
                   label: "Years Protecting the GTA",
                   detail: "Since 1991",
                 },
                 {
-                  value: counter1000.count,
+                  value: count1000,
                   suffix: "+",
                   label: "Properties Protected",
                   detail: "Commercial & Industrial",
                 },
                 {
-                  value: counter88.count,
+                  value: count88,
                   suffix: "",
                   label: "Certified Technicians",
                   detail: "Licensed & Insured",
