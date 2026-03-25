@@ -1,60 +1,41 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Phone, Shield, CheckCircle } from "lucide-react";
 
-function useInView(threshold: number = 0.3) {
-  const [inView, setInView] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setInView(true);
-      },
-      { threshold }
-    );
-
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [threshold]);
-
-  return { inView, ref };
-}
-
-function useCountUp(end: number, started: boolean, duration: number = 2000) {
+function useCountUp(end: number, duration: number = 2000, delay: number = 500) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!started) return;
+    const timeout = setTimeout(() => {
+      let startTime: number;
+      let animationFrame: number;
 
-    let startTime: number;
-    let animationFrame: number;
+      const animate = (timestamp: number) => {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setCount(Math.floor(eased * end));
 
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * end));
+        if (progress < 1) {
+          animationFrame = requestAnimationFrame(animate);
+        }
+      };
 
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
+      animationFrame = requestAnimationFrame(animate);
+    }, delay);
 
-    animationFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrame);
-  }, [started, end, duration]);
+    return () => clearTimeout(timeout);
+  }, [end, duration, delay]);
 
   return count;
 }
 
 export default function Hero() {
-  const { inView, ref: statsRef } = useInView();
-  const count33 = useCountUp(33, inView, 2000);
-  const count1000 = useCountUp(1000, inView, 2200);
-  const count88 = useCountUp(88, inView, 1800);
+  const count33 = useCountUp(33, 2000, 500);
+  const count1000 = useCountUp(1000, 2200, 500);
+  const count88 = useCountUp(88, 1800, 500);
 
   return (
     <section className="relative bg-epi-black overflow-hidden min-h-[90vh] flex items-center">
@@ -169,7 +150,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="hidden lg:block"
           >
-            <div className="grid grid-cols-2 gap-4" ref={statsRef}>
+            <div className="grid grid-cols-2 gap-4">
               {[
                 {
                   value: count33,
